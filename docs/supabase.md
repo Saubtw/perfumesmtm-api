@@ -1,0 +1,17 @@
+# Supabase
+
+Actualización Perfumes MTM: el mapeo actual omite stock, price y currency. Estas columnas de la migración inicial son históricas, no se leen ni se exponen. No es necesario modificar ni eliminar datos para funcionar como catálogo. Las recomendaciones dependen solo de publicación, identidad y perfil olfativo. Las imágenes conservan sus URLs públicas tras reemplazar los archivos por las 118 imágenes suministradas.
+
+Proyecto: `tzucfbbuovdfnwzugotv`. La inspección por MCP encontró el esquema de aplicación vacío. Se aplicaron, en orden, `001_sillage_catalog.sql`, `002_private_chat.sql` y `003_explicit_private_policies.sql`. No se borraron tablas existentes. El catálogo inicial usa exclusivamente las 118 referencias/fichas/imágenes reales del repositorio.
+
+`public.sillage_products` contiene IDs string del catálogo original, numeración, marca/nombre/género/imagen, publicación, stock/precio/moneda nullable, perfil JSONB y referencia/hash de procedencia. Mantener stock/precio en NULL hasta disponer de cantidades y precios reales. La política pública solo permite SELECT de productos publicados y las concesiones seleccionan únicamente columnas comerciales. No hay permisos de INSERT/UPDATE/DELETE para anon ni authenticated.
+
+`sillage_chat_sessions`, `sillage_chat_quotas` y `sillage_chat_usage` son privadas. Tienen RLS, políticas restrictivas de denegación al cliente y permisos solo de servidor. El historial permanece en OpenAI: estas tablas no duplican transcripciones. Los RPC `sillage_create_chat_session`, `sillage_acquire_chat_session` y `sillage_consume_quota` usan bloqueos/actualizaciones atómicas y solo pueden ejecutarse con service_role. Las funciones son SECURITY INVOKER con search_path vacío, sin SQL dinámico.
+
+La clave publicable se utiliza exclusivamente para catálogo y verificación de JWT. `SUPABASE_SECRET_KEY` se usa solo en el repositorio de sesiones, nunca en el modelo o cliente. No se envían estas credenciales a herramientas del agente. No hace falta `@supabase/ssr`: el cliente no usa SSR ni cookies de autenticación Next.js.
+
+Para otro proyecto, ejecutar primero `docs/inspect-supabase.sql` por una conexión de lectura. Revisar tablas, claves, variantes, políticas y permisos; no ejecutar migraciones de este repositorio sobre tablas del mismo nombre con estructura desconocida. La migración del catálogo conserva registros existentes mediante ON CONFLICT DO NOTHING; las migraciones de chat se aplican una sola vez mediante el historial de migraciones de Supabase. No ejecutar de nuevo manualmente 002/003.
+
+Configurar `SUPABASE_CATALOG_MAPPING` con un archivo JSON validado por `mappingSchema`; el ejemplo suministrado corresponde a las tablas creadas y verificadas. La API no infiere nombres de tablas ni hace fallback silencioso al archivo local si Supabase falla. Las lecturas usan columnas explícitas y lotes de 200 con máximo de 10,000; el catálogo público tiene caché de 30 segundos. Las verificaciones comerciales fuerzan lectura fresca. Este diseño cubre las 118 referencias; para catálogos mucho mayores conviene mover filtros/paginación al servidor PostgreSQL.
+
+Verificación: `npm run smoke:live -w api`. La inspección OpenAPI de `npm run inspect:supabase` puede ser denegada con clave publicable; eso no implica que la conexión al catálogo falle. Las políticas privadas se prueban con la clave pública, además de revisar el asesor de seguridad. No otorgar permisos adicionales para eliminar avisos del asesor.

@@ -8,5 +8,5 @@ test-results/
 playwright-report/
 data/*.sqlite*
 reports/
-catalog-mapping.json
+/catalog-mapping.json
 product-links.json

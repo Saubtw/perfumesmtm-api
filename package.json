@@ -1,13 +1,38 @@
 {
-  "name":"@sillage/api", "private":true, "type":"module",
+  "name": "@sillage/api",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "dev":"tsx watch --env-file-if-exists=.env src/server.ts", "start":"node --env-file-if-exists=.env dist/server.js",
-    "build":"tsc", "typecheck":"tsc --noEmit", "test":"tsx --test tests/*.test.ts",
-    "inspect:supabase":"tsx --env-file-if-exists=.env scripts/inspect-supabase.ts",
-    "catalog:import":"tsx --env-file-if-exists=.env scripts/import-catalog.ts",
-    "db:prepare":"tsx scripts/prepare-database.ts",
-    "smoke:live":"tsx --env-file-if-exists=.env scripts/smoke-live.ts"
+    "dev": "tsx watch --env-file-if-exists=.env src/server.ts",
+    "start": "node --env-file-if-exists=.env dist/server.js",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "inspect:supabase": "tsx --env-file-if-exists=.env scripts/inspect-supabase.ts",
+    "catalog:import": "tsx --env-file-if-exists=.env scripts/import-catalog.ts",
+    "db:prepare": "tsx scripts/prepare-database.ts",
+    "smoke:live": "tsx --env-file-if-exists=.env scripts/smoke-live.ts"
   },
-  "dependencies":{"@supabase/supabase-js":"^2.95.0","express":"^5.1.0","helmet":"^8.1.0","cors":"^2.8.5","cookie-parser":"^1.4.7","zod":"^4.1.0","openai":"latest"},
-  "devDependencies":{"typescript":"^5.9.0","tsx":"^4.20.0","@types/node":"^24.0.0","@types/express":"^5.0.0","@types/cors":"^2.8.19","@types/cookie-parser":"^1.4.9","supertest":"^7.1.0","@types/supertest":"^6.0.3"}
+  "dependencies": {
+    "@supabase/supabase-js": "^2.95.0",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0",
+    "cors": "^2.8.5",
+    "cookie-parser": "^1.4.7",
+    "zod": "^4.1.0",
+    "openai": "latest"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.0",
+    "tsx": "^4.20.0",
+    "@types/node": "^24.0.0",
+    "@types/express": "^5.0.0",
+    "@types/cors": "^2.8.19",
+    "@types/cookie-parser": "^1.4.9",
+    "supertest": "^7.1.0",
+    "@types/supertest": "^6.0.3"
+  },
+  "engines": {
+    "node": "24.x"
+  }
 }

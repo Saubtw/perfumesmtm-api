@@ -1,0 +1,16 @@
+{
+  "table": "sillage_products",
+  "columns": {
+    "id": "id",
+    "name": "name",
+    "brand": "brand",
+    "image": "image_url",
+    "gender": "gender",
+    "display_index": "display_index",
+    "olfactory": "olfactory"
+  },
+  "published": {
+    "column": "published",
+    "value": true
+  }
+}

@@ -472,7 +472,7 @@
     "source_id": 68,
     "workbook_id": 89,
     "brand": "Rabanne",
-    "name": "Invictus Victory",
+    "name": "Invictus Victory Elixir",
     "price": 649
   },
   {
@@ -824,5 +824,12 @@
     "brand": "Maison Francis Kurkdjian",
     "name": "Baccarat Rouge 540",
     "price": 799
+  },
+  {
+    "source_id": 119,
+    "workbook_id": null,
+    "brand": "Chanel",
+    "name": "Coco Mademoiselle Intense",
+    "price": 699
   }
 ]

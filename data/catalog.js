@@ -606,9 +606,9 @@ export const catalog = [
     "id": 68,
     "brand": "Rabanne",
     "house": "Rabanne",
-    "name": "Invictus Victory",
+    "name": "Invictus Victory Elixir",
     "gender": "masculino",
-    "image": "/images/catalog/invictusvictory.webp",
+    "image": "/images/catalog/invictusvictoryelixir.png",
     "sourceName": "Invictus Victory.webp"
   },
   {
@@ -1060,5 +1060,14 @@ export const catalog = [
     "gender": "femenino",
     "image": "/images/catalog/baccaratrouge540.webp",
     "sourceName": "Baccarat Rouge 540.webp"
+  },
+  {
+    "id": 119,
+    "brand": "Chanel",
+    "house": "Chanel",
+    "name": "Coco Mademoiselle Intense",
+    "gender": "femenino",
+    "image": "/images/catalog/cocomademoiselleintense.png",
+    "sourceName": "User supplied Coco Mademoiselle Intense.png"
   }
 ];

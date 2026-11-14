@@ -706,5 +706,19 @@
     "source": "Maison Francis Kurkdjian Baccarat Rouge 540.webp",
     "image": "/images/catalog/baccaratrouge540.webp",
     "sha256": "1778b9b810f1e2a1301f2fd55f5feb375a10039e5814c9d77045a201703e0f08"
+  },
+  {
+    "source": "C:/Users/User/AppData/Local/Temp/codex-clipboard-4df622dd-c689-4118-825c-1be04622768b.png",
+    "image": "/images/catalog/cocomademoiselleintense.png",
+    "sha256": "9606ca6077053a580ddec3f5c6a4a981b9d875c0fa4a74486ca013c0fa1c49e8",
+    "supplied_by": "user",
+    "date": "2026-11-14"
+  },
+  {
+    "source": "C:/Users/User/AppData/Local/Temp/codex-clipboard-900b89c3-cacf-4a7d-86e5-f3cd5b03f4fc.png",
+    "image": "/images/catalog/invictusvictoryelixir.png",
+    "sha256": "3ed834cc6f5532c3b32527b33bd699a578587b3e2924ec247c508abac316e649",
+    "supplied_by": "user",
+    "date": "2026-11-14"
   }
 ]

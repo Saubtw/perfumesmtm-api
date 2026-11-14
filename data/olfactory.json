@@ -541,14 +541,14 @@
     "occasion": "citas nocturnas, invierno y otoño."
   },
   "68": {
-    "family": "ambarada, especiada, aromática y gourmand.",
-    "opening": "limón y pimienta rosa.",
-    "heart": "lavanda e incienso.",
-    "base": "vainilla, haba tonka y ámbar.",
-    "smell": "limón especiado al comienzo, seguido de incienso cálido, vainilla dulce y una base ambarada intensa.",
-    "profile": "dulzor alto, frescura media inicial, intensidad alta.",
-    "occasion": "noches frescas, citas, fiestas y otoño-invierno.",
-    "note": "el Victory original no es lo mismo que Victory Elixir."
+    "family": "oriental, amaderada y gourmand.",
+    "opening": "haba tonka.",
+    "heart": "incienso.",
+    "base": "maderas intensas.",
+    "summary": "Tonka dulce con un matiz almendrado, incienso ahumado y un fondo de maderas cálidas.",
+    "smell": "Tonka dulce con un matiz almendrado, incienso ahumado y un fondo de maderas cálidas.",
+    "occasion": "salidas nocturnas, celebraciones y meses fríos.",
+    "note": "Versión Victory Elixir Parfum Intense; distinta de Invictus Victory y de Invictus Elixir."
   },
   "69": {
     "family": "ambarada, especiada y amaderada.",
@@ -963,5 +963,12 @@
     "profile": "dulzor medio-alto, frescura media-baja, intensidad alta.",
     "occasion": "citas, eventos elegantes, clima templado y noches.",
     "notes": "jazmín, azafrán, amberwood, ámbar gris y resinas amaderadas."
+  },
+  "119": {
+    "family": "ambarada y amaderada.",
+    "summary": "Pachulí profundo con la calidez de la vainilla y el haba tonka.",
+    "smell": "Pachulí profundo con la calidez de la vainilla y el haba tonka.",
+    "notes": "pachulí, haba tonka y vainilla de Madagascar.",
+    "note": "Versión Eau de Parfum Intense; distinta de Coco Mademoiselle Eau de Parfum."
   }
 }

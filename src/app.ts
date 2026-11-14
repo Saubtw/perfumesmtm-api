@@ -12,6 +12,8 @@ import { identify,ipKey } from './middleware/identity.js';
 import { buildContext,contextSchema } from './services/context.js';
 import { querySchema } from './types/catalog.js';
 import { HttpError } from './utils/errors.js';
+import {adminRoutes} from './routes/admin.js';
+import {publicManagement} from './services/management.js';
 const idSchema=z.string().min(1).max(150);
 export function createApp(dependencies?:{catalog:CatalogRepository;sessions:SessionStore;agent:CloudAgent}) {
   const catalog=dependencies?.catalog ?? new CatalogRepository();
@@ -26,6 +28,15 @@ export function createApp(dependencies?:{catalog:CatalogRepository;sessions:Sess
     try {await sessions.consume(`ip:${ipKey(req)}`,300,60000);next();} catch(error){next(error);}
   });
   app.get('/api/v1/health',(_req,res)=>res.json({status:'ok',catalog_source:env.CATALOG_SOURCE,session_store:env.SUPABASE_SECRET_KEY?'supabase':'sqlite',supabase_configured:!!env.SUPABASE_PUBLISHABLE_KEY,openai_configured:!!env.OPENAI_API_KEY&&!!env.OPENAI_AGENT_ID,chat_configured:env.COOKIE_SECRET.length>=32}));
+  app.use('/api/v1/admin',adminRoutes(sessions,catalog));
+  app.get('/api/v1/storefront',async(_req,res)=>{
+    const [state,items]=await Promise.all([publicManagement(),catalog.products(true)]);
+    const promotions=state.promotions.flatMap(p=>{
+      const selected=p.product_ids.map((id:string)=>items.find(i=>i.id===id));
+      if(selected.some((i:any)=>!i)||selected.reduce((s:number,i:any)=>s+(i.price??0),0)<=p.price)return [];
+      return [{id:p.id,name:p.name,description:p.description,price:p.price,enabled:true,count:selected.length,products:selected.map((i:any)=>[i.brand,i.name]),tone:p.tone}];
+    });res.json({promotions});
+  });
   app.get(['/api/v1/perfumes','/api/v1/perfumes/search'],async(req,res)=>res.json(await catalog.findPublishedPerfumes(querySchema.parse(req.query))));
   app.get('/api/v1/perfumes/:id/related',async(req,res)=>res.json({items:await catalog.findRelatedPerfumes(idSchema.parse(req.params.id))}));
   app.get('/api/v1/perfumes/:id',async(req,res)=>{

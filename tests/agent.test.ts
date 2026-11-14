@@ -8,7 +8,7 @@ function mockClient(events:any[]) {
   const stream=()=>({controller:new AbortController(),async *[Symbol.asyncIterator](){for(const event of events)yield event;}});
   const client:any={beta:{agents:{retrieve:async()=>({name:'Perfume AI Advisor',model:'gpt-6.1-sol',instructions:'Saved instructions'}),sessions:{
     create:async(body:any)=>{created++;assert.ok(body.agent_id!==undefined);assert.equal(body.agent.multi_agent.enabled,false);assert.ok(body.agent.tools.some((t:any)=>t.name==='search_catalog'));return stream();},
-    retrieve:async()=>({metadata:{advisor_policy:'catalog-v3'},required_actions:[{type:'function_call',name:'get_perfume_details',arguments:{id:'9'},call_id:'call1',turn_id:'turn1'}]}),update:async()=>({}),
+    retrieve:async()=>({metadata:{advisor_policy:'catalog-v3'},required_actions:[{type:'function_call',name:'get_perfume_details',arguments:{id:'44'},call_id:'call1',turn_id:'turn1'}]}),update:async()=>({}),
     events:{stream:async()=>stream(),create:async(_id:string,body:any)=>{submitted.push(body);}},
     items:{list:async()=>({data:[],has_more:false})},delete:async()=>({deleted:true})
   }}}};return {client,submitted,get created(){return created;}};
@@ -24,7 +24,7 @@ test('saved cloud agent session is persisted, tools are resolved, done text repl
   ]);
   try{const agent=new CloudAgent(catalog,sessions,mock.client);const output:any[]=[];const result=await agent.run(s,'hola',{},(type,data)=>output.push({type,data}),new AbortController().signal);
     assert.equal(result.text,'Hola.');assert.equal(sessions.owned(s.id,'owner').remote_id,'remote1');
-    const toolResult=mock.submitted.find(x=>x.events[0].type==='agent.session.input.tool_result');assert.equal(JSON.parse(toolResult.events[0].output).name,'Asad');
+    const toolResult=mock.submitted.find(x=>x.events[0].type==='agent.session.input.tool_result');assert.equal(JSON.parse(toolResult.events[0].output).name,'212 VIP Black');
     await agent.run(sessions.owned(s.id,'owner'),'siguiente',{},()=>{},new AbortController().signal);assert.equal(mock.created,1);assert.ok(mock.submitted.some(x=>x.events[0].type==='agent.session.input.message'));assert.ok(output.some(x=>x.type==='complete'));
   }finally{sessions.db.close();}
 });

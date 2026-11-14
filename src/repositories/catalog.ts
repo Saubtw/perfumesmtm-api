@@ -4,6 +4,7 @@ import { env } from '../config/env.js';
 import { supabaseClient } from '../integrations/supabase/client.js';
 import { HttpError, unavailable } from '../utils/errors.js';
 import { normalize, safeImage, olfactorySchema, type Product, type CatalogQuery } from '../types/catalog.js';
+import {publicManagement} from '../services/management.js';
 
 const identifier = z.string().regex(/^[a-zA-Z_][a-zA-Z0-9_]*$/);
 export const mappingSchema = z.object({ table: identifier, columns: z.object({
@@ -14,8 +15,14 @@ const archiveSchema = z.array(z.object({ id: z.number().int(), name:z.string(), 
 type Link = {source_id: number; product_id: string; verified: true};
 export class CatalogRepository {
   private cache?: { until: number; products: Product[] };
+  invalidate(){this.cache=undefined;}
+  async allArchiveProducts(){
+    const rows=archiveSchema.parse(JSON.parse(await readFile(new URL('../../data/catalog.json',import.meta.url),'utf8')));
+    const prices=JSON.parse(await readFile(new URL('../../data/pricing.json',import.meta.url),'utf8')) as {brand:string;name:string;price:number}[];
+    return rows.map(row=>({...row,id:String(row.id),price:prices.find(p=>p.brand===row.brand&&p.name===row.name)?.price??null}));
+  }
   async products(fresh = false): Promise<Product[]> {
-    if (!fresh && this.cache && this.cache.until > Date.now()) return this.cache.products;
+    if (!env.SUPABASE_SECRET_KEY && !fresh && this.cache && this.cache.until > Date.now()) return this.cache.products;
     const details = z.record(z.string(), olfactorySchema).parse(JSON.parse(await readFile(new URL('../../data/olfactory.json', import.meta.url),'utf8')));
     let products: Product[];
     if (env.CATALOG_SOURCE === 'archive') {
@@ -54,6 +61,9 @@ export class CatalogRepository {
       JSON.parse(await readFile(new URL('../../data/pricing.json', import.meta.url),'utf8')));
     const priceByIdentity = new Map(prices.map(row=>[normalize(`${row.brand} ${row.name}`),row.price]));
     products = products.map(product=>({...product,price:priceByIdentity.get(normalize(`${product.brand} ${product.name}`)) ?? null}));
+    const state=await publicManagement();
+    products=products.filter(p=>state.inventory.some(i=>i.product_id===p.id&&i.enabled)&&!state.brands.some(b=>b.name===p.brand&&!b.enabled))
+      .map(p=>({...p,price:state.inventory.find(i=>i.product_id===p.id)?.retail_price??p.price}));
     this.cache={until:Date.now()+30000,products}; return products;
   }
   async findPublishedPerfumes(query: CatalogQuery) {

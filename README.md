@@ -23,3 +23,7 @@ Producción requiere las variables y validaciones descritas en `docs/deployment.
 `GET /api/v1/health`, catálogo y fichas públicas. El precio MXN procede de `data/pricing.json`, vinculado por identidad; no se publican costos o márgenes. El carrito y WhatsApp se resuelven en el navegador: abrir WhatsApp no crea pedidos ni modifica inventario.
 
 Los endpoints de conversaciones exigen origen permitido y propiedad de sesión. Las claves de OpenAI y Supabase permanecen en el servidor. Consultar `docs/api.md`, `docs/supabase.md` y `docs/ai-agent.md` para la integración.
+
+## Administración privada
+
+Panel `/dashboard-admin` con catálogo reversible, marcas y combos editables, stock, costos y resultados, y cuentas con permisos. El catálogo inicial publica solo los 16 perfumes comerciales. Consulta [la guía](docs/admin.md).
